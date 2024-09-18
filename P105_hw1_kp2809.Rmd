@@ -57,13 +57,54 @@ ggsave("scatter_plot.png", plot = scatter)
 ## Problem 2 
 Create a data frame comprised of:
 
-a random sample of size 10 from a standard Normal distribution
-a logical vector indicating whether elements of the sample are greater than 0
-a character vector of length 10
-a factor vector of length 10, with 3 different factor “levels”
+- a random sample of size 10 from a standard Normal distribution
+- a logical vector indicating whether elements of the sample are greater than 0
+- a character vector of length 10
+- a factor vector of length 10, with 3 different factor “levels”
+
+```{r}
+
+df= tibble(
+  x= rnorm(10),
+  positive= ifelse(x > 0,TRUE, FALSE), 
+  char_vec= c("red","red","red","red","blue","blue","blue","orange","orange","orange"),
+  fac_vec= as.factor(char_vec)
+  
+    
+)
+df
+```
+
 Try to take the mean of each variable in your dataframe. What works and what doesn’t?
 
 Hint: to take the mean of a variable in a dataframe, you need to pull the variable out of the dataframe. Try loading the tidyverse and using the pull function.
 
+```{r}
+mean(pull(df, var=x))
+mean(pull(df, var=positive))
+mean(pull(df, var=char_vec))
+mean(pull(df, var=fac_vec))
 
-In some cases, you can explicitly convert variables from one type to another. Write a code chunk that applies the as.numeric function to the logical, character, and factor variables (please show this chunk but not the output). What happens, and why? Does this help explain what happens when you try to take the mean?
+```
+The mean of variables x and positive, which is the logical vectors or TRUE and FALSE return an average, but the character and factor vectors return NA. We are unable to take an average of a character vector or factor since they are categorical variables without numerical values. R treated the logical vector as 0 and 1's, so it was able to calculate the average. 
+
+
+In some cases, you can explicitly convert variables from one type to another.Write a code chunk that applies the as.numeric function to the logical, character, and factor variables (please show this chunk but not the output). 
+
+```{r eval=FALSE, include=FALSE}
+df= 
+  df= tibble(
+  x= rnorm(10),
+  positive= as.numeric(ifelse(x > 0,TRUE, FALSE)), 
+  char_vec= as.numeric(c("red","red","red","red","blue","blue","blue","orange","orange","orange")),
+  fac_vec= as.numeric(as.factor(char_vec))
+  
+    
+)
+df
+
+```
+
+What happens, and why? Does this help explain what happens when you try to take the mean?
+
+NA's were produced by this data frame for both the character and factor vector as they were both categorical values. We are still able to calculate the mean of posititve which simply assigned a 1 to true and 0 to false. There was not a specified way to convert the character vector to numeric, so it will still be unable to calculate the mean of categorical vectors 
