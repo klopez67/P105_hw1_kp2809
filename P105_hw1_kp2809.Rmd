@@ -5,6 +5,10 @@ date: "2024-09-18"
 output: github_document
 ---
 
+```{r}
+library(tidyverse)
+```
+
 
 ## Problem 1
 
@@ -36,9 +40,18 @@ The average length of flippers for this sample of penguins is 200.9152 mm.
 
 Make a scatterplot of flipper_length_mm (y) vs bill_length_mm (x); color points using the species variable (adding color = ... inside of aes in your ggplot code should help).
 
+```{r}
+scatter= ggplot(data= penguins, aes(x = bill_length_mm, y = flipper_length_mm, color="red" ))+ 
+  geom_point()
+scatter
+```
 
+This plot shows the relationship between variables Bill and Flipper length in units mm. There appears to be an upward trend in flipper length as bill length increases. This shows a strong positive relationship with few outliers. 
 
 Export your first scatterplot to your project directory using ggsave
+```{r}
+ggsave("scatter_plot.png", plot = scatter)
+```
 
 
 ## Problem 2 
@@ -54,7 +67,3 @@ Hint: to take the mean of a variable in a dataframe, you need to pull the variab
 
 
 In some cases, you can explicitly convert variables from one type to another. Write a code chunk that applies the as.numeric function to the logical, character, and factor variables (please show this chunk but not the output). What happens, and why? Does this help explain what happens when you try to take the mean?
-
-
-
-
