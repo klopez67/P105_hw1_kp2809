@@ -5,7 +5,56 @@ date: "2024-09-18"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
+
+## Problem 1
+
+This problem focuses the use of inline R code, plotting, and the behavior of ggplot for variables of different types.
+
+Load the penguin dataset:
+
+```{r}
+data("penguins", package = "palmerpenguins")
+               
+penguins
+nrow(penguins)
+ncol(penguins)
+names(penguins)
 
 ```
+
+Write a short description of the penguins dataset (not the penguins_raw dataset) using inline R code. 
+
+The penguins dataset is a tibble of dimensions of 334 rows and 8 columns. 
+Each row entry is an entry for a single penguin. Each column describes the species type, island, bill lengths, and depth, flipper length, body mass, sex, and year that data was taken. Intially, the columns which are considered factor variables are species, island, and sex. Columns which are considered double are bill length and bill depth. Only the body mass, year variables are considered integers. The mean flipper length can be calculated by using the mean() function in R. Initially this will return "NA" since there are likely some missing values in the column, so they need to be dropped in the calculation. 
+
+```{r}
+attach(penguins)
+mean(flipper_length_mm, na.rm=TRUE)
+```
+
+The average length of flippers for this sample of penguins is 200.9152 mm.
+
+Make a scatterplot of flipper_length_mm (y) vs bill_length_mm (x); color points using the species variable (adding color = ... inside of aes in your ggplot code should help).
+
+
+
+Export your first scatterplot to your project directory using ggsave
+
+
+## Problem 2 
+Create a data frame comprised of:
+
+a random sample of size 10 from a standard Normal distribution
+a logical vector indicating whether elements of the sample are greater than 0
+a character vector of length 10
+a factor vector of length 10, with 3 different factor “levels”
+Try to take the mean of each variable in your dataframe. What works and what doesn’t?
+
+Hint: to take the mean of a variable in a dataframe, you need to pull the variable out of the dataframe. Try loading the tidyverse and using the pull function.
+
+
+In some cases, you can explicitly convert variables from one type to another. Write a code chunk that applies the as.numeric function to the logical, character, and factor variables (please show this chunk but not the output). What happens, and why? Does this help explain what happens when you try to take the mean?
+
+
+
 
