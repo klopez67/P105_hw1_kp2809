@@ -1,0 +1,11 @@
+---
+title: "P105_hw1_kp2809"
+author: "Kimberly Lopez"
+date: "2024-09-18"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+
+```
+
