@@ -91,7 +91,7 @@ The mean of variables x and positive, which is the logical vectors or TRUE and F
 
 In some cases, you can explicitly convert variables from one type to another.Write a code chunk that applies the as.numeric function to the logical, character, and factor variables (please show this chunk but not the output). 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 df= 
   df= tibble(
   x= rnorm(10),
