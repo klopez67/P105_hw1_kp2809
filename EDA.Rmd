@@ -1,0 +1,81 @@
+---
+title: "EDA"
+author: "Kimberly Lopez"
+date: "2024-10-03"
+output: github_document
+---
+
+
+```{r}
+library(tidyverse)
+library ( patchwork)
+library(haven)
+```
+
+Importing weather data
+```{r}
+weather_df = 
+  rnoaa::meteo_pull_monitors(
+    c("USW00094728", "USW00022534", "USS0023B17S"),
+    var = c("PRCP", "TMIN", "TMAX"), 
+    date_min = "2021-01-01",
+    date_max = "2022-12-31") |>
+  mutate(
+    name = case_match(
+      id, 
+      "USW00094728" ~ "CentralPark_NY", 
+      "USW00022534" ~ "Molokai_HI",
+      "USS0023B17S" ~ "Waterhole_WA"),
+    tmin = tmin / 10,
+    tmax = tmax / 10,
+    month = lubridate::floor_date(date, unit = "month")) |>
+  select(name, id, everything())
+
+```
+
+## Initial numeric explorations
+Before beginning to summarize data, it can help to use initial visualizations to motivate some data checks or observations. Consider, for example, this histogram of precipitation values:
+```{r}
+weather_df |> 
+  ggplot(aes(x = prcp)) + 
+  geom_histogram()
+```
+
+When was precipitation more than 1000
+
+```{r}
+weather_df|> 
+  filter(prcp>1000)
+```
+
+A close look at the scatterplot below (which focuses on a range of values to emphasize this point) suggests that Central Park and Molokai report temperature values differently from Waterhole …
+```{r}
+weather_df |> 
+  filter(tmax >= 20, tmax <= 30) |> 
+  ggplot(aes(x = tmin, y = tmax, color = name, shape = name)) + 
+  geom_point(alpha = .75)
+```
+--> there looks like Central Park and Molokai has bands. This could be due to the way the data is being reported. One might be reporting in fareheight and other in degrees.
+
+##  `r group_by`
+
+Grouping weather data by name and month. This is different than mutating. 
+
+- you can group by mutliple things
+
+```{r}
+weather_df|> 
+  group_by(name,month)
+```
+We can use this to count stuff by using group and summarize. 
+
+- we can find distinct observations by adding a seperate variable that takes dictint(month). 
+```{r}
+weather_df|> 
+  group_by(name)|> 
+  summarize(
+    n_obs = n(), 
+    n_dist = n_distinct(month))
+
+```
+
